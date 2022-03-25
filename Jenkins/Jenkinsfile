@@ -7,16 +7,6 @@ pipeline {
     stages {
         // implicit checkout stage
 
-        stage ('Artifactory Configuration') {
-            steps {
-                rtServer (
-                    id: "hestia-docker-demo",
-                    url: "https://learningfridays.jfrog.io/artifactory",
-                    credentialsId: "hestia-jenkins-credentials"
-                )
-			}
-		}
-
         stage('Build') {
             steps {
                 sh './mvnw clean package'
@@ -25,24 +15,29 @@ pipeline {
 		
         stage('Upload to Artifactory') {
             steps {
-                sh './mvnw clean package'
-					rtUpload (
-						serverId: 'hestia-docker-demo',
-						spec: '''{
-							  "files": [
-								{
-								  "pattern": "spring-petclinic-2.3.1.BUILD-SNAPSHOT.jar",
-								  "target": "artifactory-test/"
-								}
-							 ]
-						}''',
+				rtServer (
+                    id: "hestia-docker-demo",
+                    url: "https://learningfridays.jfrog.io/artifactory",
+                    credentialsId: "hestia-jenkins-credentials"
+                )
 					
-						// Optional - Associate the uploaded files with the following custom build name and build number.
-						// If not set, the files will be associated with the default build name and build number (i.e the
-						// the Jenkins job name and number).
-						buildName: 'sprint-petclinic',
-						buildNumber: '1'
-					)
+				rtUpload (
+					serverId: 'hestia-docker-demo',
+					spec: '''{
+							 "files": [
+							{
+								 "pattern": "spring-petclinic-2.3.1.BUILD-SNAPSHOT.jar",
+								 "target": "artifactory-test/"
+							}
+							]
+					}''',
+					
+					// Optional - Associate the uploaded files with the following custom build name and build number.
+					// If not set, the files will be associated with the default build name and build number (i.e the
+					// the Jenkins job name and number).
+					buildName: 'sprint-petclinic',
+					buildNumber: '1'
+				)
             }
         }
 		
