@@ -4,8 +4,17 @@
 pipeline {
     agent any
     triggers { pollSCM('* * * * *') }
+	
     stages {
         // implicit checkout stage
+
+        stage ('Artifactory Configuration') {
+            steps {
+                rtServer (
+                    id: "hestia-docker-demo",
+                    url: "https://learningfridays.jfrog.io/artifactory",
+                    credentialsId: "hestia-jenkins-credentials"
+                )
 
         stage('Build') {
             steps {
