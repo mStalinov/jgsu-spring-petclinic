@@ -27,7 +27,7 @@ pipeline {
 							 "files": [
 							{
 								 "pattern": "spring-petclinic-2.3.1.BUILD-SNAPSHOT.jar",
-								 "target": "artifactory-test/"
+								 "target": "default-docker-local/jenkins-test"
 							}
 							]
 					}''',
