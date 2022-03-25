@@ -22,6 +22,30 @@ pipeline {
                 sh './mvnw clean package'
             }
         }
+		
+        stage('Upload to Artifactory') {
+            steps {
+                sh './mvnw clean package'
+					rtUpload (
+						serverId: 'hestia-docker-demo',
+						spec: '''{
+							  "files": [
+								{
+								  "pattern": "spring-petclinic-2.3.1.BUILD-SNAPSHOT.jar",
+								  "target": "artifactory-test/"
+								}
+							 ]
+						}''',
+					
+						// Optional - Associate the uploaded files with the following custom build name and build number.
+						// If not set, the files will be associated with the default build name and build number (i.e the
+						// the Jenkins job name and number).
+						buildName: 'sprint-petclinic',
+						buildNumber: '1'
+					)
+            }
+        }
+		
     }
     // post after stages, for entire pipeline, is also an implicit step albeit with explicit config here, unlike implicit checkout stage
     post {
