@@ -3,7 +3,6 @@
 
 pipeline {
     agent any
-    triggers { pollSCM('* * * * *') }
 	
     stages {
         // implicit checkout stage
@@ -15,6 +14,8 @@ pipeline {
                     url: "https://learningfridays.jfrog.io/artifactory",
                     credentialsId: "hestia-jenkins-credentials"
                 )
+			}
+		}
 
         stage('Build') {
             steps {
