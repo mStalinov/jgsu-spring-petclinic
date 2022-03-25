@@ -16,18 +16,18 @@ pipeline {
         stage('Upload to Artifactory') {
             steps {
 				rtServer (
-                    id: "hestia-docker-demo",
+                    id: "learningfridays",
                     url: "https://learningfridays.jfrog.io/artifactory",
                     credentialsId: "hestia-jenkins-credentials"
                 )
 					
 				rtUpload (
-					serverId: 'hestia-docker-demo',
+					serverId: 'learningfridays',
 					spec: '''{
 							 "files": [
 							{
-								 "pattern": "spring-petclinic-2.3.1.BUILD-SNAPSHOT.jar",
-								 "target": "default-docker-local/jenkins-test"
+								 "pattern": "spring-petclinic*",
+								 "target": "default-docker-local/jenkins-test/"
 							}
 							]
 					}''',
