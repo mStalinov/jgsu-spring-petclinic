@@ -21,15 +21,14 @@ pipeline {
 				docker {
 					image 'releases-docker.jfrog.io/jfrog/jfrog-cli-v2:2.2.0' 
 					reuseNode true
-        }
-      }
-      steps {
-        sh 'jfrog rt upload --url http://127.0.0.1:8380/artifactory/ --access-token ${ARTIFACTORY_ACCESS_TOKEN} target/spring-petclinic-2.3.1.BUILD-SNAPSHOT.jar hestia-demo-generic/'
-        sh 'jfrog rt upload --url http://127.0.0.1:8380/artifactory/ --access-token ${ARTIFACTORY_ACCESS_TOKEN} target/spring-petclinic-2.3.1.BUILD-SNAPSHOT.jar hestia-demo-generic/'
-      }
+				}
+			}
+			steps {
+				sh 'jfrog rt upload --url http://127.0.0.1:8380/artifactory/ --access-token ${ARTIFACTORY_ACCESS_TOKEN} target/spring-petclinic-2.3.1.BUILD-SNAPSHOT.jar hestia-demo-generic/'
+			}
+		}
     }
-		
-    }
+	
     // post after stages, for entire pipeline, is also an implicit step albeit with explicit config here, unlike implicit checkout stage
     post {
         always {
